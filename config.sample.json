@@ -1,0 +1,11 @@
+{
+    "mainnet": {
+        "decimals": 5,
+        "initialSupply": 1000
+    },
+
+    "rinkeby": {
+        "decimals": 5,
+        "initialSupply": 1000
+    }
+}

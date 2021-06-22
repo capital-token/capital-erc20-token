@@ -1,0 +1,7 @@
+.env
+.openzeppelin/unknown*
+artifacts
+cache
+node_modules
+
+/config.js*
