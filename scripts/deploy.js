@@ -16,17 +16,17 @@ function getInitialSupply() {
 
 async function main() {
 
-  const { admin } = config;
+  const { account } = config;
 
-  assert(ethers.utils.isAddress(admin), 'Invalid admin address');
+  assert(ethers.utils.isAddress(account), 'Invalid account address');
 
   const initialSupply = getInitialSupply();
 
   const Capital = await ethers.getContractFactory('CapitalToken');
 
-  console.log(`[+] Deploying CPL token (admin = ${admin}, supply = ${initialSupply})...`);
+  console.log(`[+] Deploying CPL token (account = ${account}, supply = ${initialSupply})...`);
 
-  const capital = await upgrades.deployProxy(Capital, [admin, initialSupply]);
+  const capital = await upgrades.deployProxy(Capital, [account, initialSupply]);
 
   await capital.deployed();
   

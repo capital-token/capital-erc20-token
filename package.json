@@ -5,18 +5,21 @@
   "main": "index.js",
   "scripts": {
     "compile": "hardhat compile",
-    "deploy-rinkeby": "hardhat run --network rinkeby scripts/deploy.js",
     "deploy-local": "hardhat run --network localhost scripts/deploy.js",
     "deploy-mainnet": "hardhat run --network mainnet scripts/deploy.js",
+    "deploy-rinkeby": "hardhat run --network rinkeby scripts/deploy.js",
     "node": "hardhat node",
-    "upgrade-rinkeby": "hardhat run --network rinkeby scripts/upgrade.js",
+    "test": "hardhat test",
     "upgrade-local": "hardhat run --network localhost scripts/upgrade.js",
-    "upgrade-mainnet": "hardhat run --network mainnet scripts/upgrade.js"
+    "upgrade-mainnet": "hardhat run --network mainnet scripts/upgrade.js",
+    "upgrade-rinkeby": "hardhat run --network rinkeby scripts/upgrade.js"
   },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.2",
     "@nomiclabs/hardhat-etherscan": "^2.1.2",
+    "@nomiclabs/hardhat-waffle": "^2.0.1",
     "@openzeppelin/hardhat-upgrades": "^1.8.2",
+    "chai": "^4.3.4",
     "dotenv": "^10.0.0",
     "ethers": "^5.1.4",
     "hardhat": "^2.3.0",

@@ -2,12 +2,12 @@
 pragma solidity ^0.8.1;
 
 import "@openzeppelin/contracts-upgradeable/access/AccessControlEnumerableUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC20BurnableUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC20PausableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol";
 
-contract CapitalToken is Initializable, ContextUpgradeable, AccessControlEnumerableUpgradeable, ERC20BurnableUpgradeable, ERC20PausableUpgradeable {
+contract CapitalToken is Initializable, ContextUpgradeable, AccessControlEnumerableUpgradeable, PausableUpgradeable, ERC20Upgradeable, ERC20BurnableUpgradeable {
     using SafeERC20Upgradeable for IERC20Upgradeable;
 
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
@@ -17,7 +17,7 @@ contract CapitalToken is Initializable, ContextUpgradeable, AccessControlEnumera
         return 5;
     }
 
-    function initialize(address adminAccount, uint256 initialSupply) public initializer {
+    function initialize(address account, uint256 initialSupply) public initializer {
         __Context_init_unchained();
         __ERC165_init_unchained();
         __AccessControl_init_unchained();
@@ -25,13 +25,12 @@ contract CapitalToken is Initializable, ContextUpgradeable, AccessControlEnumera
         __ERC20_init_unchained("Capital", "CPA");
         __ERC20Burnable_init_unchained();
         __Pausable_init_unchained();
-        __ERC20Pausable_init_unchained();
 
-        _setupRole(DEFAULT_ADMIN_ROLE, adminAccount);
-        _setupRole(MINTER_ROLE, adminAccount);
-        _setupRole(PAUSER_ROLE, adminAccount);
+        _setupRole(DEFAULT_ADMIN_ROLE, account);
+        _setupRole(MINTER_ROLE, account);
+        _setupRole(PAUSER_ROLE, account);
 
-        _mint(adminAccount, initialSupply);
+        _mint(account, initialSupply);
     }
 
     function mint(address to, uint256 amount) public onlyRole(MINTER_ROLE) {
@@ -54,7 +53,10 @@ contract CapitalToken is Initializable, ContextUpgradeable, AccessControlEnumera
         address from, 
         address to, 
         uint256 amount
-    ) internal override(ERC20Upgradeable, ERC20PausableUpgradeable) {
+    ) internal override(ERC20Upgradeable) {
         super._beforeTokenTransfer(from, to, amount);
+
+        bool isAdminOrMinter = hasRole(DEFAULT_ADMIN_ROLE, _msgSender()) || hasRole(MINTER_ROLE, _msgSender());
+        require(isAdminOrMinter || !paused(), "Capital: token transfer while paused");
     }
 }
