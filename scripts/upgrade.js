@@ -1,6 +1,6 @@
 const assert               = require('assert');
 const config               = require('../lib/config');
-const { ethers, upgrades } = require('hardhat');
+const { defender, ethers } = require('hardhat');
 
 async function main() {
 
@@ -10,11 +10,11 @@ async function main() {
 
   const Capital = await ethers.getContractFactory('CapitalToken');
 
-  console.log('[+] Upgrading CPL token...');
+  console.log(`[+] Creating upgrade proposal for CPA token... (address = ${address})`);
 
-  await upgrades.upgradeProxy(address, Capital);
+  const proposal = await defender.proposeUpgrade(address, Capital);
   
-  console.log('[+] CPL token upgraded');
+  console.log(`[+] CPA token upgrade proposal created: ${proposal.url}`);
 }
 
 main().catch(console.error);

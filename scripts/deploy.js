@@ -24,13 +24,13 @@ async function main() {
 
   const Capital = await ethers.getContractFactory('CapitalToken');
 
-  console.log(`[+] Deploying CPL token (account = ${account}, supply = ${initialSupply})...`);
+  console.log(`[+] Deploying CPA token (account = ${account}, supply = ${initialSupply})...`);
 
   const capital = await upgrades.deployProxy(Capital, [account, initialSupply]);
 
   await capital.deployed();
   
-  console.log(`[+] CPL token deployed to: ${capital.address}`);
+  console.log(`[+] CPA token deployed to: ${capital.address}`);
 }
 
 main().catch(console.error);
