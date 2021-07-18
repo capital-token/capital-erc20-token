@@ -4,14 +4,19 @@ pragma solidity ^0.8.1;
 import "@openzeppelin/contracts-upgradeable/access/AccessControlEnumerableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC20BurnableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol";
 
-contract CapitalToken is Initializable, ContextUpgradeable, AccessControlEnumerableUpgradeable, PausableUpgradeable, ERC20Upgradeable, ERC20BurnableUpgradeable {
+contract CapitalToken is Initializable, ContextUpgradeable, AccessControlEnumerableUpgradeable, PausableUpgradeable, ERC20Upgradeable {
     using SafeERC20Upgradeable for IERC20Upgradeable;
+
+    uint256[50] private __gap;
 
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     bytes32 public constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
+
+    function burn(uint256 amount) public onlyRole(MINTER_ROLE) {
+        _burn(_msgSender(), amount);
+    }
 
     function decimals() public pure override returns (uint8) {
         return 5;
@@ -23,7 +28,6 @@ contract CapitalToken is Initializable, ContextUpgradeable, AccessControlEnumera
         __AccessControl_init_unchained();
         __AccessControlEnumerable_init_unchained();
         __ERC20_init_unchained("Capital", "CPA");
-        __ERC20Burnable_init_unchained();
         __Pausable_init_unchained();
 
         _setupRole(DEFAULT_ADMIN_ROLE, account);
