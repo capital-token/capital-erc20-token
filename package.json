@@ -5,11 +5,13 @@
   "main": "index.js",
   "scripts": {
     "compile": "hardhat compile",
+    "deploy-bsc": "hardhat run --network bsc scripts/deploy.js",
     "deploy-local": "hardhat run --network localhost scripts/deploy.js",
     "deploy-mainnet": "hardhat run --network mainnet scripts/deploy.js",
     "deploy-rinkeby": "hardhat run --network rinkeby scripts/deploy.js",
     "node": "hardhat node",
     "test": "hardhat test",
+    "upgrade-bsc": "hardhat run --network bsc scripts/upgrade.js",
     "upgrade-local": "hardhat run --network localhost scripts/upgrade.js",
     "upgrade-mainnet": "hardhat run --network mainnet scripts/upgrade.js",
     "upgrade-rinkeby": "hardhat run --network rinkeby scripts/upgrade.js"

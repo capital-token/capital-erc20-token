@@ -20,6 +20,10 @@ module.exports = {
     }
   },
   networks: {
+    bsc: {
+      url: 'https://bsc-dataseed1.ninicoin.io',
+      accounts: [process.env.PRIVATE_KEY]
+    },
     mainnet: {
       url: 'https://nodes.mewapi.io/rpc/eth',
       accounts: [process.env.PRIVATE_KEY]

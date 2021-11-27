@@ -1,5 +1,5 @@
-const assert       = require('assert');
-const config       = require('../lib/config');
+const assert               = require('assert');
+const config               = require('../lib/config');
 const { ethers, upgrades } = require('hardhat');
 
 async function main() {
